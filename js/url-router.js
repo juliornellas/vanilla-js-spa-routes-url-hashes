@@ -1,3 +1,5 @@
+const urlPageTitle = "Vanilla JS SPA Routes - URL and HASHES";
+
 document.addEventListener("click", (event) => {
     const { target } = event;
 
@@ -15,23 +17,23 @@ document.addEventListener("click", (event) => {
 const routes = {
     404: {
         template: "/templates/404.html",
-        title: "",
-        description: ""
+        title: `404 | ${urlPageTitle}`,
+        description: "Page not found"
     },
     "/": {
         template: "/templates/index.html",
-        title: "",
-        description: ""
+        title: `Home | ${urlPageTitle}`,
+        description: "Welcome"
     },
     "/about": {
         template: "/templates/about.html",
-        title: "",
-        description: ""
+        title: `About Us | ${urlPageTitle}`,
+        description: "Our team"
     },
     "/contact": {
         template: "/templates/contact.html",
-        title: "",
-        description: ""
+        title: `Contact Us | ${urlPageTitle}`,
+        description: "Send a message"
     }
 }
 
@@ -59,11 +61,17 @@ const urlLocationHandler = async () => {
     const html = await fetch(route.template).then((response)=> response.text());
 
     document.getElementById("content").innerHTML = html;
+    document.title = route.title;
+    document.querySelector('meta[name="description"]').setAttribute("content", route.description);
 
 };
 
+//Set the watching to the browser router functionality
+//onpopstate is fired always the active history entry changes
 window.onpopstate = urlLocationHandler;
 
+//Global access to the function
 window.route = urlRoute;
 
+//First time calling function to load the first page
 urlLocationHandler();
